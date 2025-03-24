@@ -1,5 +1,37 @@
-Completed Assignments from 1 to 9:
-        
-        1 to 7 (Google Colab Links)
-        
-        8 to 9 (Streamlit Links)
+# 💰 Personal Budget Tracker (Income & Expenses)
+
+A **simple and interactive** Personal Budget Tracker built with **Python & Streamlit** that helps you **track income and expenses efficiently**.
+
+## 🚀 Features
+
+✅ **Add, Edit & Delete Expenses**  
+✅ **Add, Edit & Delete Income**  
+✅ **View Financial Summary** (Income vs Expenses)  
+✅ **Interactive Data Tables** (Edit income & expenses directly)  
+✅ **Visual Insights with Bar Charts**  
+✅ **User-Friendly Interface**  
+
+## 📌 Technologies Used
+
+- **Python 3.x**
+- **Streamlit** (For Web UI)
+- **SQLite** (For Data Storage)
+- **Pandas & Matplotlib** (For Data Processing & Visualization)
+
+## 📊 Screenshots
+
+### **1️⃣ Dashboard View**
+<img src="screenshots/dashboard.png" width="600">
+
+### **2️⃣ Adding Income & Expenses**
+<img src="screenshots/add_expense.png" width="600">
+
+### **3️⃣ Financial Summary with Charts**
+<img src="screenshots/bar_chart.png" width="600">
+
+## 🛠 Installation Guide
+
+1. **Clone the Repository**
+   ```sh
+   git clone https://github.com/fahadkhakwani/expense-tracker.git
+   cd expense-tracker
