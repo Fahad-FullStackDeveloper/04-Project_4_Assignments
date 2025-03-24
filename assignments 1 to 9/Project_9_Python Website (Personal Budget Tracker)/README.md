@@ -33,5 +33,4 @@ A **simple and interactive** Personal Budget Tracker built with **Python & Strea
 
 1. **Clone the Repository**
    ```sh
-   git clone https://github.com/Fahad-FullStackDeveloper/04-Project_4_Assignments/tree/main/assignments%201%20to%209/Project_9_Build%20a%20Python%20Website%20in%2015%20Minutes%20With%20Streamlit
-   cd expense-tracker
+   git clone https://github.com/Fahad-FullStackDeveloper/04-Project_4_Assignments/tree/main/assignments%201%20to%209/Project_9_Python%20Website%20(Personal%20Budget%20Tracker)
