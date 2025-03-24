@@ -32,7 +32,7 @@ pip install streamlit
 ## Usage
 ### 1. Clone the Repository
 ```sh
-git clone https://github.com/Fahad-FullStackDeveloper/04-Project_4_Assignments/tree/main/assignments%201%20to%206/Project_8_Create%20a%20Python%20Streamlit%20BMI%20Calculator%20Web%20App%20in%20Just%206%20Minutes
+git clone https://github.com/Fahad-FullStackDeveloper/04-Project_4_Assignments/tree/main/assignments%201%20to%209/Project_8_Create%20a%20Python%20Streamlit%20BMI%20Calculator%20Web%20App%20in%20Just%206%20Minutes
 cd bmi-calculator-streamlit
 ```
 
