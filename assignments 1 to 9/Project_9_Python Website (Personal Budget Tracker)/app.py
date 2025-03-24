@@ -5,9 +5,11 @@ from database import (
     init_db, add_expense, add_income, get_expenses, get_income,
     update_expense, update_income, delete_expense, delete_income
 )
+import altair as alt
+
 
 # ✅ **Application Metadata**
-APP_VERSION = "1.3.0"
+APP_VERSION = "1.4.0"
 DEVELOPER_NAME = "Fahad Khakwani"
 DEVELOPER_CONTACT = "fahadyousufkhakwani@gmail.com"
 GITHUB_REPO = "https://github.com/Fahad-FullStackDeveloper/04-Project_4_Assignments/tree/main/assignments%201%20to%209/Project_9_Python%20Website%20(Personal%20Budget%20Tracker)"
@@ -123,11 +125,11 @@ elif menu == "View Summary":
 
     col1, col2, col3 = st.columns(3)
     with col1:
-        st.metric(label="💸 Total Income", value=f"Rs.{total_income:.2f}")
+        st.metric(label="💸 Total Income", value=f"Rs. {total_income:,.2f}")
     with col2:
-        st.metric(label="🛒 Total Expenses", value=f"Rs.{total_expense:.2f}")
+        st.metric(label="🛒 Total Expenses", value=f"Rs. {total_expense:,.2f}")
     with col3:
-        st.metric(label="💰 Balance", value=f"Rs.{balance:.2f}")
+        st.metric(label="💰 Balance", value=f"Rs. {balance:,.2f}")
 
     # User selection for chart type
     chart_type = st.selectbox("📈 Select Chart Type", ["Bar Chart", "Line Chart"])
@@ -137,22 +139,57 @@ elif menu == "View Summary":
         df_exp = pd.DataFrame(expenses, columns=["ID", "Date", "Category", "Subcategory", "Amount", "Description"])
         category_totals = df_exp.groupby("Category")["Amount"].sum().reset_index()
         st.subheader("📉 Expenses by Category")
+        
+        category_colors = {
+            "Essentials": "#A3D9A5",          # Soft Green (Calm & Fresh)
+            "Transportation": "#FFD580",      # Pastel Orange (Warm & Inviting)
+            "Utilities & Bills": "#87CEEB",   # Light Sky Blue (Cool & Relaxing)
+            "Financial & Savings": "#C3B1E1", # Soft Lavender (Soothing & Trustworthy)
+            "Food & Dining": "#FFB6C1",       # Light Pink (Appetizing & Warm)
+            "Shopping & Personal": "#F4A460", # Sand Brown (Elegant & Comfortable)
+            "Education & Learning": "#FFE4B5", # Moccasin (Soft & Motivating)
+            "Entertainment & Leisure": "#FADADD", # Pastel Rose (Playful & Fun)
+            "Travel & Vacation": "#CDEAFF",   # Light Aqua Blue (Refreshing & Relaxing)
+            "Family & Childcare": "#FFD1DC",  # Pastel Pink (Soft & Warm)
+            "Home & Furniture": "#D8BFD8",    # Thistle (Subtle & Cozy)
+            "Giving & Donations": "#98FB98",  # Pale Green (Kindness & Growth)
+            "Miscellaneous": "#D3D3D3"        # Light Gray (Neutral & Balanced)
+        }
+
+        # Apply colors dynamically
+        chart = alt.Chart(category_totals).mark_bar().encode(
+            x=alt.X("Category", sort="-y"),
+            y="Amount",
+            color=alt.Color("Category", scale=alt.Scale(domain=list(category_colors.keys()), range=list(category_colors.values())))
+        )
+        
         if chart_type == "Bar Chart":
-            st.bar_chart(category_totals.set_index("Category"))
+            st.altair_chart(chart, use_container_width=True)
         else:
-            st.line_chart(category_totals.set_index("Category"))
+            st.altair_chart(chart.mark_line(), use_container_width=True)
 
     # ✅ **Bar Chart: Income vs. Expenses**
     if income and expenses:
         summary_data = pd.DataFrame({
-            "Type": ["Income", "Expenses"],
-            "Amount": [total_income, total_expense]
+            "Type": ["Income", "Expenses", "Balance"],
+            "Amount": [total_income, total_expense, balance]
         })
+        color_map = alt.Scale(
+        domain=["Income", "Expenses", "Balance"],
+        range=["#A3D9A5", "#FF9AA2", "#89CFF0"]  # Pastel green, soft coral pink, baby blue
+        )
+        
         st.subheader("📊 Income vs. Expenses")
+        chart = alt.Chart(summary_data).mark_bar().encode(
+            x="Type",
+            y="Amount",
+            color=alt.Color("Type", scale=color_map)
+        )
+
         if chart_type == "Bar Chart":
-            st.bar_chart(summary_data.set_index("Type"))
+            st.altair_chart(chart, use_container_width=True)
         else:
-            st.line_chart(summary_data.set_index("Type"))
+            st.altair_chart(chart.mark_line(point=True), use_container_width=True)
 
     # ✅ **Monthly Income & Expenses Chart**
     if income or expenses:
@@ -173,22 +210,37 @@ elif menu == "View Summary":
         # Merge income and expense data
         monthly_summary = pd.merge(income_monthly, expense_monthly, on="Month", how="outer").fillna(0)
         monthly_summary.columns = ["Month", "Income", "Expenses"]
+        monthly_summary["Balance"] = monthly_summary["Income"] - monthly_summary["Expenses"]
         monthly_summary = monthly_summary.sort_values("Month")
 
-        # Plot Chart based on user selection
-        st.subheader("📆 Monthly Income & Expenses")
-        if chart_type == "Bar Chart":
-            st.bar_chart(monthly_summary.set_index("Month"))
-        else:
-            st.line_chart(monthly_summary.set_index("Month"))
+        # Reshape data for Altair
+        summary_melted = monthly_summary.melt("Month", var_name="Type", value_name="Amount")
 
+        color_map = alt.Scale(
+        domain=["Income", "Expenses", "Balance"],
+        range=["#A3D9A5", "#FF9AA2", "#89CFF0"]  # Pastel green, soft coral pink, baby blue
+        )
+
+        st.subheader("📆 Monthly Income & Expenses")
+        chart = alt.Chart(summary_melted).mark_bar().encode(
+            x="Month",
+            y="Amount",
+            color=alt.Color("Type", scale=color_map)
+        )
+
+        if chart_type == "Bar Chart":
+            st.altair_chart(chart, use_container_width=True)
+        else:
+            st.altair_chart(chart.mark_line(point=True), use_container_width=True)
+
+# ✅ **Settings Page**
 # ✅ **About Page**
 elif menu == "About":
     st.subheader("ℹ️ About This Application")
     st.write("This is a **Personal Budget & Expense Tracker** built using Python and Streamlit.")
 
     st.markdown(f"""
-    - **Version:** {APP_VERSION}  
+    - **Version:** ({APP_VERSION}) Latest  
     - **Developer:** [{DEVELOPER_NAME}](mailto:fahadyousufkhakwani@gmail.com)  
     - **GitHub Repository:** [{GITHUB_REPO}]({GITHUB_REPO})  
     - **Features:**  
@@ -200,6 +252,12 @@ elif menu == "About":
     # 📢 Version History
     st.subheader("📢 Version History")
     version_history = {
+        "1.4.0": [
+            "📌 Added Coma Seperated Budget Value, Soft colors for bars",
+            "📊 Added Custom Chart Colors",
+            "📅 Monthly & Yearly Budget Tracking",
+            "🛠️ UI Enhancements & Bug Fixes",
+        ],
         "1.3.0": [
             "📊 Month-wise Income & Expense Charts",
             "📈 Graph Chart Selection for Visualization",
@@ -219,7 +277,7 @@ elif menu == "About":
         ]
     }
 
-    for version, changes in version_data:
+    for version, changes in version_history.items():  # Corrected dictionary iteration
         st.markdown(f"**Version {version}**")
         for change in changes:
             st.markdown(f"- {change}")
@@ -230,5 +288,5 @@ elif menu == "About":
     - **Developer:** Fahad Khakwani  
     - **Email:** [fahadyousufkhakwani@gmail.com](mailto:fahadyousufkhakwani@gmail.com)  
     - **GitHub Repository:** [Expense Tracker Repo]({GITHUB_REPO})  
-    - **Version:** 1.3.0  
+    - **Version:** ({APP_VERSION}) Latest  
     """)

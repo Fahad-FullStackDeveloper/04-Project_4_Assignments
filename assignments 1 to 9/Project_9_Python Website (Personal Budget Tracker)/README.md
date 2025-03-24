@@ -77,27 +77,29 @@ Ensure you have **Python 3.8+** installed on your system. You also need `pip` an
 
 ## Version History
 
-### 📌 v1.3.0 (Latest)
+### 📌 v1.4.0 (Latest)
+- 📌 Added Coma Seperated Budget Value, Soft colors for bars
+- 📊 Added Custom Chart Colors
+- 📅 Monthly & Yearly Budget Tracking
+- 🛠️ UI Enhancements & Bug Fixes
 
+### 📌 v1.3.0
 - 📊 Added **Month-wise Income & Expense Charts**
 - 📈 Introduced **Graph Chart Selection** for detailed insights
 - 🛠️ Performance Improvements & Bug Fixes
 
 ### 📌 v1.2.0
-
 - Improved **UI & Interactive Tables** for expense/income tracking
 - Added **Editable & Deletable Transactions**
 - Enhanced **Bar Chart Visualizations** for better insights
 - Fixed **Minor Bugs & Performance Enhancements**
 
 ### 📌 v1.1.0
-
 - Introduced **Summary Dashboard** with Income vs. Expenses charts
 - Added **Metric Widgets** for quick finance insights
 - Optimized database interactions
 
 ### 📌 v1.0.0
-
 - Initial Release with **Basic Income & Expense Tracking**
 - SQLite database integration
 - Responsive UI with dynamic data input fields
