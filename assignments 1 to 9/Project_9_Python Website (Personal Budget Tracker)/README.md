@@ -77,7 +77,11 @@ Ensure you have **Python 3.8+** installed on your system. You also need `pip` an
 
 ## Version History
 
-### 📌 v1.4.0 (Latest)
+### 📌 v1.4.1 (Latest)
+- 🛠️ Bug Fixed
+
+
+### 📌 v1.4.0
 - 📌 Added Coma Seperated Budget Value, Soft colors for bars
 - 📊 Added Custom Chart Colors
 - 📅 Monthly & Yearly Budget Tracking

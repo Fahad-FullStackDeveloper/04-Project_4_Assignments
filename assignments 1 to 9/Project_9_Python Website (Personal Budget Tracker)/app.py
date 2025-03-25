@@ -9,7 +9,7 @@ import altair as alt
 
 
 # ✅ **Application Metadata**
-APP_VERSION = "1.4.0"
+APP_VERSION = "1.4.1"
 DEVELOPER_NAME = "Fahad Khakwani"
 DEVELOPER_CONTACT = "fahadyousufkhakwani@gmail.com"
 GITHUB_REPO = "https://github.com/Fahad-FullStackDeveloper/04-Project_4_Assignments/tree/main/assignments%201%20to%209/Project_9_Python%20Website%20(Personal%20Budget%20Tracker)"
@@ -252,6 +252,9 @@ elif menu == "About":
     # 📢 Version History
     st.subheader("📢 Version History")
     version_history = {
+        "1.4.1": [
+            "🛠️ Bug Fixed",
+        ],
         "1.4.0": [
             "📌 Added Coma Seperated Budget Value, Soft colors for bars",
             "📊 Added Custom Chart Colors",
