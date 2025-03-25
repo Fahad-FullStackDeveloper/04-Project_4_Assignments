@@ -9,7 +9,7 @@ import altair as alt
 
 
 # ✅ **Application Metadata**
-APP_VERSION = "1.4.1"
+APP_VERSION = "1.4.2"
 DEVELOPER_NAME = "Fahad Khakwani"
 DEVELOPER_CONTACT = "fahadyousufkhakwani@gmail.com"
 GITHUB_REPO = "https://github.com/Fahad-FullStackDeveloper/04-Project_4_Assignments/tree/main/assignments%201%20to%209/Project_9_Python%20Website%20(Personal%20Budget%20Tracker)"
@@ -23,97 +23,8 @@ st.caption(f"Version {APP_VERSION} | Developed by {DEVELOPER_NAME} | 📧 {DEVEL
 # Sidebar Navigation
 menu = st.sidebar.radio("📌 Menu", ["View Summary", "Add Income", "Add Expense", "About"])
 
-# ✅ **Add Expense Section**
-if menu == "Add Expense":
-    st.sidebar.subheader("📉 Add a New Expense")
-    date = st.sidebar.date_input("Date")
-    category = st.sidebar.selectbox("Category", [
-    "Essentials", 
-    "Transportation", 
-    "Utilities & Bills", 
-    "Financial & Savings", 
-    "Food & Dining", 
-    "Shopping & Personal", 
-    "Education & Learning", 
-    "Entertainment & Leisure", 
-    "Travel & Vacation", 
-    "Family & Childcare", 
-    "Home & Furniture", 
-    "Giving & Donations", 
-    "Miscellaneous"
-    ])
-    # Subcategories based on the main category
-    subcategories = {
-    "Essentials": ["Grocery", "Supermarket", "Health", "Medical Bills", "Pharmacy", "Doctor Consultation", "Rent", "Mortgage", "Home Maintenance", "Property Taxes"],
-    "Transportation": ["Bike", "Bike Fuel", "Bike Maintenance", "Car", "Car Fuel", "Car Maintenance", "Parking", "Public Transport", "Ride Sharing (Uber, Lyft)", "Airfare", "Train & Bus Tickets"],
-    "Utilities & Bills": ["Electricity", "Water", "Gas", "Phone & Internet", "Cable TV", "Streaming Services (Netflix, Spotify)"],
-    "Financial & Savings": ["Insurance (Car, Home, Health, Life)", "Loans (Car, Student, Home)", "Savings", "Investment", "Retirement Contribution", "Credit Card Payments", "Debt Repayment", "Taxes"],
-    "Food & Dining": ["Restaurants", "Fast Food", "Coffee", "Takeout & Delivery", "Bars & Alcohol"],
-    "Shopping & Personal": ["Clothing", "Shoes", "Accessories", "Jewelry", "Beauty & Cosmetics", "Hair & Salon", "Spa & Massage", "Gym Membership", "Sports & Fitness Equipment"],
-    "Education & Learning": ["School Fees", "College Tuition", "Books & Stationery", "Online Courses", "Workshops & Seminars"],
-    "Entertainment & Leisure": ["Movies", "Concerts & Events", "Amusement Parks", "Gaming", "Hobbies", "Toys & Games"],
-    "Travel & Vacation": ["Hotels", "Flights", "Rental Cars", "Tourist Attractions", "Luggage & Travel Gear"],
-    "Family & Childcare": ["Childcare", "Baby Supplies", "School Activities", "Elderly Care", "Pet Food", "Veterinary Bills"],
-    "Home & Furniture": ["Furniture", "Appliances", "Home Décor", "Cleaning Supplies", "Gardening", "Security System"],
-    "Giving & Donations": ["Charity", "Religious Contributions", "Gifts", "Celebrations & Parties"],    
-    "Miscellaneous": ["Emergency Fund", "Unexpected Expenses", "Miscellaneous"]
-    }
-
-    # Display subcategories based on selected category
-    subcategory = st.sidebar.selectbox("Subcategory", subcategories.get(category, ["Select a Category First"]))
-    amount = st.sidebar.number_input("Amount", min_value=0.0, format="%.2f")
-    description = st.sidebar.text_area("Description")
-
-    if st.sidebar.button("Add Expense"):
-        add_expense(str(date), category, subcategory, amount, description)
-        st.sidebar.success("Expense added successfully!")
-
-    # Display Editable Expense Table
-    st.subheader("💵 Recent Expenses (Editable)")
-    expenses = get_expenses()
-    
-    if expenses:
-        df_exp = pd.DataFrame(expenses, columns=["ID", "Date", "Category", "Subcategory", "Amount", "Description"])
-        edited_df = st.data_editor(df_exp, num_rows="dynamic", key="expenses_table")
-
-        for index, row in edited_df.iterrows():
-            update_expense(row["ID"], row["Date"], row["Category"], row["Subcategory"], row["Amount"], row["Description"])
-        
-        for index, row in edited_df.iterrows():
-            if st.button(f"🗑️ Delete {row['Category']}", key=f"del_exp_{row['ID']}"):
-                delete_expense(row["ID"])
-                st.warning("Expense deleted!")
-
-# ✅ **Add Income Section**
-elif menu == "Add Income":
-    st.sidebar.subheader("📈 Add New Income")
-    date = st.sidebar.date_input("Date")
-    source = st.sidebar.text_input("Income Source")
-    amount = st.sidebar.number_input("Amount", min_value=0.0, format="%.2f")
-    description = st.sidebar.text_area("Description")
-
-    if st.sidebar.button("Add Income"):
-        add_income(str(date), source, amount, description)
-        st.sidebar.success("Income added successfully!")
-
-    # Display Editable Income Table
-    st.subheader("💰 Recent Income (Editable)")
-    income = get_income()
-    
-    if income:
-        df_inc = pd.DataFrame(income, columns=["ID", "Date", "Source", "Amount", "Description"])
-        edited_df_inc = st.data_editor(df_inc, num_rows="dynamic", key="income_table")
-
-        for index, row in edited_df_inc.iterrows():
-            update_income(row["ID"], row["Date"], row["Source"], row["Amount"], row["Description"])
-
-        for index, row in edited_df_inc.iterrows():
-            if st.button(f"🗑️ Delete {row['Source']}", key=f"del_inc_{row['ID']}"):
-                delete_income(row["ID"])
-                st.warning("Income deleted!")
-
 # ✅ **View Summary Section (WITH BAR CHARTS & GRAPH CHARTS)**
-elif menu == "View Summary":
+if menu == "View Summary":
     st.subheader("📊 Budget Summary")
     
     expenses = get_expenses()
@@ -233,25 +144,117 @@ elif menu == "View Summary":
         else:
             st.altair_chart(chart.mark_line(point=True), use_container_width=True)
 
-# ✅ **Settings Page**
+# ✅ **Add Income Section**
+elif menu == "Add Income":
+    st.sidebar.subheader("📈 Add New Income")
+    date = st.sidebar.date_input("Date")
+    source = st.sidebar.text_input("Income Source")
+    amount = st.sidebar.number_input("Amount", min_value=0.0, format="%.2f")
+    description = st.sidebar.text_area("Description")
+
+    if st.sidebar.button("Add Income"):
+        add_income(str(date), source, amount, description)
+        st.sidebar.success("Income added successfully!")
+
+    # Display Editable Income Table
+    st.subheader("💰 Recent Income (Editable)")
+    income = get_income()
+    
+    if income:
+        df_inc = pd.DataFrame(income, columns=["ID", "Date", "Source", "Amount", "Description"])
+        edited_df_inc = st.data_editor(df_inc, num_rows="dynamic", key="income_table")
+
+        for index, row in edited_df_inc.iterrows():
+            update_income(row["ID"], row["Date"], row["Source"], row["Amount"], row["Description"])
+
+        for index, row in edited_df_inc.iterrows():
+            if st.button(f"🗑️ Delete {row['Source']}", key=f"del_inc_{row['ID']}"):
+                delete_income(row["ID"])
+                st.warning("Income deleted!")
+
+# ✅ **Add Expense Section**
+elif menu == "Add Expense":
+    st.sidebar.subheader("📉 Add a New Expense")
+    date = st.sidebar.date_input("Date")
+    category = st.sidebar.selectbox("Category", [
+    "Essentials", 
+    "Transportation", 
+    "Utilities & Bills", 
+    "Financial & Savings", 
+    "Food & Dining", 
+    "Shopping & Personal", 
+    "Education & Learning", 
+    "Entertainment & Leisure", 
+    "Travel & Vacation", 
+    "Family & Childcare", 
+    "Home & Furniture", 
+    "Giving & Donations", 
+    "Miscellaneous"
+    ])
+    # Subcategories based on the main category
+    subcategories = {
+    "Essentials": ["Grocery", "Supermarket", "Health", "Medical Bills", "Pharmacy", "Doctor Consultation", "Rent", "Mortgage", "Home Maintenance", "Property Taxes"],
+    "Transportation": ["Bike", "Bike Fuel", "Bike Maintenance", "Car", "Car Fuel", "Car Maintenance", "Parking", "Public Transport", "Ride Sharing (Uber, Lyft)", "Airfare", "Train & Bus Tickets"],
+    "Utilities & Bills": ["Electricity", "Water", "Gas", "Phone & Internet", "Cable TV", "Streaming Services (Netflix, Spotify)"],
+    "Financial & Savings": ["Insurance (Car, Home, Health, Life)", "Loans (Car, Student, Home)", "Savings", "Investment", "Retirement Contribution", "Credit Card Payments", "Debt Repayment", "Taxes"],
+    "Food & Dining": ["Restaurants", "Fast Food", "Coffee", "Takeout & Delivery", "Bars & Alcohol"],
+    "Shopping & Personal": ["Clothing", "Shoes", "Accessories", "Jewelry", "Beauty & Cosmetics", "Hair & Salon", "Spa & Massage", "Gym Membership", "Sports & Fitness Equipment"],
+    "Education & Learning": ["School Fees", "College Tuition", "Books & Stationery", "Online Courses", "Workshops & Seminars"],
+    "Entertainment & Leisure": ["Movies", "Concerts & Events", "Amusement Parks", "Gaming", "Hobbies", "Toys & Games"],
+    "Travel & Vacation": ["Hotels", "Flights", "Rental Cars", "Tourist Attractions", "Luggage & Travel Gear"],
+    "Family & Childcare": ["Childcare", "Baby Supplies", "School Activities", "Elderly Care", "Pet Food", "Veterinary Bills"],
+    "Home & Furniture": ["Furniture", "Appliances", "Home Décor", "Cleaning Supplies", "Gardening", "Security System"],
+    "Giving & Donations": ["Charity", "Religious Contributions", "Gifts", "Celebrations & Parties"],    
+    "Miscellaneous": ["Emergency Fund", "Unexpected Expenses", "Miscellaneous"]
+    }
+
+    # Display subcategories based on selected category
+    subcategory = st.sidebar.selectbox("Subcategory", subcategories.get(category, ["Select a Category First"]))
+    amount = st.sidebar.number_input("Amount", min_value=0.0, format="%.2f")
+    description = st.sidebar.text_area("Description")
+
+    if st.sidebar.button("Add Expense"):
+        add_expense(str(date), category, subcategory, amount, description)
+        st.sidebar.success("Expense added successfully!")
+
+    # Display Editable Expense Table
+    st.subheader("💵 Recent Expenses (Editable)")
+    expenses = get_expenses()
+    
+    if expenses:
+        df_exp = pd.DataFrame(expenses, columns=["ID", "Date", "Category", "Subcategory", "Amount", "Description"])
+        edited_df = st.data_editor(df_exp, num_rows="dynamic", key="expenses_table")
+
+        for index, row in edited_df.iterrows():
+            update_expense(row["ID"], row["Date"], row["Category"], row["Subcategory"], row["Amount"], row["Description"])
+        
+        for index, row in edited_df.iterrows():
+            if st.button(f"🗑️ Delete {row['Category']}", key=f"del_exp_{row['ID']}"):
+                delete_expense(row["ID"])
+                st.warning("Expense deleted!")
+
 # ✅ **About Page**
 elif menu == "About":
     st.subheader("ℹ️ About This Application")
     st.write("This is a **Personal Budget & Expense Tracker** built using Python and Streamlit.")
 
+
+    # 👨‍💻 Developer Information
+    st.subheader("👨‍💻 Developer Information")
     st.markdown(f"""
+    - **Developer:** Fahad Khakwani  
+    - **Email:** [fahadyousufkhakwani@gmail.com](mailto:fahadyousufkhakwani@gmail.com)  
+    - **GitHub Repository:** [Expense Tracker Repo]({GITHUB_REPO})  
     - **Version:** ({APP_VERSION}) Latest  
-    - **Developer:** [{DEVELOPER_NAME}](mailto:fahadyousufkhakwani@gmail.com)  
-    - **GitHub Repository:** [{GITHUB_REPO}]({GITHUB_REPO})  
-    - **Features:**  
-        ✅ Add, edit, and delete income and expenses  
-        ✅ View financial summary with bar charts  
-        ✅ Interactive data tables for editing transactions  
     """)
+
 
     # 📢 Version History
     st.subheader("📢 Version History")
     version_history = {
+        "1.4.2": [
+            "🛠️ Minor Tweaks for backend compatibility",
+        ],
         "1.4.1": [
             "🛠️ Bug Fixed",
         ],
@@ -284,12 +287,3 @@ elif menu == "About":
         st.markdown(f"**Version {version}**")
         for change in changes:
             st.markdown(f"- {change}")
-
-    # 👨‍💻 Developer Information
-    st.subheader("👨‍💻 Developer Information")
-    st.markdown(f"""
-    - **Developer:** Fahad Khakwani  
-    - **Email:** [fahadyousufkhakwani@gmail.com](mailto:fahadyousufkhakwani@gmail.com)  
-    - **GitHub Repository:** [Expense Tracker Repo]({GITHUB_REPO})  
-    - **Version:** ({APP_VERSION}) Latest  
-    """)

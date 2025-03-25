@@ -77,9 +77,11 @@ Ensure you have **Python 3.8+** installed on your system. You also need `pip` an
 
 ## Version History
 
-### 📌 v1.4.1 (Latest)
-- 🛠️ Bug Fixed
+### 📌 v1.4.2 (Latest)
+- 🛠️ Minor Tweaks for backend compatibility
 
+### 📌 v1.4.1
+- 🛠️ Bug Fixed
 
 ### 📌 v1.4.0
 - 📌 Added Coma Seperated Budget Value, Soft colors for bars
