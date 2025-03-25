@@ -7,13 +7,16 @@ The **Personal Budget Tracker** is a web-based application developed using Pytho
 ## 📊 Screenshots
 
 ### **1️⃣ Dashboard View**
-<img src="screenshots/dashboard.png" width="600">
+<img src="screenshots/summary with chart a.png" width="600">
 
 ### **2️⃣ Adding Income & Expenses**
-<img src="screenshots/add_expense.png" width="600">
+<img src="screenshots/expenses record.png" width="600">
+<img src="screenshots/income record.png" width="600">
 
 ### **3️⃣ Financial Summary with Charts**
-<img src="screenshots/bar_chart.png" width="600">
+<img src="screenshots/summary with chart b.png" width="600">
+<img src="screenshots/summary with chart c.png" width="600">
+<img src="screenshots/summary with chart d.png" width="600">
 
 ## Features
 
@@ -79,6 +82,7 @@ Ensure you have **Python 3.8+** installed on your system. You also need `pip` an
 
 ### 📌 v1.4.2 (Latest)
 - 🛠️ Minor Tweaks for backend compatibility
+-  Added Screenshots of Website in README.md
 
 ### 📌 v1.4.1
 - 🛠️ Bug Fixed

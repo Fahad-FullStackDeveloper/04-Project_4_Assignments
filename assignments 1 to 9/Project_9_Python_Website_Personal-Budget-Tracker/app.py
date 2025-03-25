@@ -254,6 +254,7 @@ elif menu == "About":
     version_history = {
         "1.4.2": [
             "🛠️ Minor Tweaks for backend compatibility",
+            "Added Screenshots of Website in README.md"
         ],
         "1.4.1": [
             "🛠️ Bug Fixed",
