@@ -1,3 +1,5 @@
+# Write a function that takes a list of numbers and returns the sum of those numbers.
+
 def add_many_numbers(numbers)-> int:
     
     total_of_numbers = 20
